@@ -2,7 +2,6 @@ from runner import Runner
 from cli.prompts import run_prompts
 
 def main():
-    print("test")
     context = run_prompts()
     runner = build_actions(context)
     runner.execute()

@@ -3,6 +3,7 @@ from setup_context import SetupContext
 from utils.path_utils import resolve_path
 from typing import Optional, Sequence
 import subprocess
+import shutil
 
 class ProcessAction(Action):
     """
@@ -27,27 +28,31 @@ class ProcessAction(Action):
         True if the process completes successfully (exit code 0).
         False if the process fails or cannot be executed.
     """
-    def __init__(self, command: Sequence[str], working_directory: Optional[str]) -> None:
+    def __init__(self, command: Sequence[str], working_directory: Optional[str] = None, use_parent_dir: bool = False) -> None:
         if isinstance(command, str):
             raise ValueError("Command must be a sequence of strings, not a single string")
         if not command:
             raise ValueError("Command cannot be empty")
         self.command = list(command)
         self.working_directory = working_directory
+        self.use_parent_dir = use_parent_dir
 
     def execute(self, context: SetupContext) -> ActionResult:
         try:
-            working_dir = resolve_path(self.working_directory or "", context.project_path)
-            result = subprocess.run(self.command, cwd=working_dir)
+            root_dir = context.parent_dir if self.use_parent_dir else context.project_dir
+            working_dir = resolve_path(self.working_directory or "", root_dir)
+            executable = shutil.which(self.command[0]) or self.command[0]
+            command = [executable, *self.command[1:]]
+            result = subprocess.run(command, cwd=working_dir)
             if result.returncode == 0:
                 return ActionResult(True)
             return ActionResult(False, f"{self.__class__.__name__} failed for '{self.command}': exit code {result.returncode}")
 
         except (ValueError, OSError) as e:
-            return ActionResult(False, f"{self.__class__.__name__} failed for '{self.command}': {e}")
+            return ActionResult(False, f"{self.__class__.__name__} failed for '{self.command}' executing at {working_dir}: {e}")
         
-def ScaffoldAction(ProcessAction):
+class ScaffoldAction(ProcessAction):
     phase = ActionPhase.SCAFFOLD
 
-def InstallAction(ProcessAction):
+class InstallAction(ProcessAction):
     phase = ActionPhase.INSTALL

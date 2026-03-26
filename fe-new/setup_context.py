@@ -1,9 +1,11 @@
 from dataclasses import dataclass
+from pathlib import Path
 
 @dataclass
 class SetupContext:
     project_name: str
-    project_path: str
+    parent_dir: Path
+    project_dir: Path
     project_type: str
     language: str
     scaffold: str

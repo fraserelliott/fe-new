@@ -24,8 +24,8 @@ class EnsureDirectoryAction(Action):
     
     def execute(self, context: SetupContext) -> ActionResult:
         try:
-            resolved = resolve_path(self.path, context.project_path)
+            resolved = resolve_path(self.path, context.project_dir)
             resolved.mkdir(parents=True, exist_ok=True)
             return ActionResult(True)
         except (ValueError, OSError) as e:
-            return ActionResult(False, f"{self.__class__.__name__} failed for '{self.command}': {e}")
+            return ActionResult(False, f"{self.__class__.__name__} failed for '{self.path}': {e}")

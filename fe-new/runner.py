@@ -10,5 +10,9 @@ class Runner:
         self.actions.extend(actions)
 
     def execute(self):
+        self.actions.sort(key=lambda action: action.phase)
         for action in self.actions:
-            action.execute(self.context)
+            result = action.execute(self.context)
+            if not result.success:
+                print(result.message)
+                break

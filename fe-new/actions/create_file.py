@@ -2,7 +2,7 @@ from actions.base import Action, ActionPhase, ActionResult
 from setup_context import SetupContext
 from typing import Optional
 from utils.path_utils import resolve_path
-from utils.file_utils import file_exists, safe_write_text_file
+from utils.file_utils import safe_write_text_file
 
 class CreateFileAction(Action):
     """
@@ -33,11 +33,12 @@ class CreateFileAction(Action):
     
     def execute(self, context: SetupContext) -> ActionResult:
         try:
+            print(f"Creating file {self.path}")
             resolved = resolve_path(self.path, context.project_dir)
-            if file_exists(resolved):
-                    if self.content is None:
-                        return ActionResult(True)
-                    return ActionResult(False, f"CreateFileAction failed for '{self.path}': cannot overwrite content of existing file.")
+            if resolved.is_file():
+                if self.content is None:
+                    return ActionResult(True)
+                return ActionResult(False, f"CreateFileAction failed for '{self.path}': cannot overwrite content of existing file.")
             if self.content is None:
                 resolved.parent.mkdir(parents=True, exist_ok=True)
                 resolved.touch()

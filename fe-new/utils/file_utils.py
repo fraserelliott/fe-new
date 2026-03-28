@@ -2,9 +2,6 @@ from pathlib import Path
 from typing import Callable
 import os
 
-def file_exists(path: Path) -> bool:
-    return path.is_file()
-
 def read_text_file(path: Path, encoding: str="utf-8") -> str:
     with open(path, "r", encoding=encoding) as f:
         return f.read()

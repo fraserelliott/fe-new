@@ -10,8 +10,8 @@ class ActionResult:
     message: Optional[str] = None
 
 class ActionPhase(IntEnum):
-    CREATE_DIRECTORY = 10
-    SCAFFOLD = 20
+    SCAFFOLD = 10
+    CREATE_DIRECTORY = 20
     INSTALL = 30
     CREATE_FILE = 40
     UPDATE_FILE = 50

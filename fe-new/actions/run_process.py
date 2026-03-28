@@ -39,11 +39,14 @@ class ProcessAction(Action):
 
     def execute(self, context: SetupContext) -> ActionResult:
         try:
+            print(f"Running process {" ".join(self.command)}")
             root_dir = context.parent_dir if self.use_parent_dir else context.project_dir
             working_dir = resolve_path(self.working_directory or "", root_dir)
             executable = shutil.which(self.command[0]) or self.command[0]
             command = [executable, *self.command[1:]]
+            print(command)
             result = subprocess.run(command, cwd=working_dir)
+            print("Return code:", result.returncode)
             if result.returncode == 0:
                 return ActionResult(True)
             return ActionResult(False, f"{self.__class__.__name__} failed for '{self.command}': exit code {result.returncode}")

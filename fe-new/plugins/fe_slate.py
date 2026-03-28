@@ -9,7 +9,7 @@ class FeSlatePlugin(Plugin):
     description="Sets up Sequelize ORM with initial configuration and environment variables."
 
     def is_available(self, context: SetupContext) -> bool:
-        return context.project_type == "Web App"
+        return context.project_type == "React Web App"
 
     def build_actions(self, context: SetupContext) -> list[Action]:
         actions = []

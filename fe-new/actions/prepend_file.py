@@ -2,7 +2,7 @@ from actions.base import Action, ActionPhase, ActionResult
 from setup_context import SetupContext
 from typing import Optional
 from utils.path_utils import resolve_path
-from utils.file_utils import file_exists, prepend_text
+from utils.file_utils import prepend_text
 
 class PrependFileAction(Action):
     """
@@ -28,8 +28,9 @@ class PrependFileAction(Action):
     
     def execute(self, context: SetupContext) -> ActionResult:
         try:
+            print(f"Prepending file {self.path}")
             resolved = resolve_path(self.path, context.project_dir)
-            if not file_exists(resolved):
+            if not resolved.is_file():
                 return ActionResult(False, f"{self.__class__.__name__} failed for '{self.path}': file does not exist.")
             prepend_text(resolved, self.content)
             return ActionResult(True)

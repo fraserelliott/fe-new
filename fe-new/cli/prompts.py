@@ -3,9 +3,10 @@ from utils.prompting import ask_text, select
 from runner import Runner
 from actions import ScaffoldAction, EnsureDirectoryAction, InstallAction, AssertDirectoryAction
 from pathlib import Path
+import re
 
 project_options = {
-    "Web App": {
+    "React Web App": {
         "JavaScript": {
             "scaffolds": ["Vite"],
             "package_managers": ["npm"]
@@ -50,7 +51,7 @@ def build_runner(context):
     runner = Runner(context)
     if context.scaffold == "Vite":
         template = "react" if context.language == "JavaScript" else "react-ts"
-        command = ["npm.cmd", "create", "vite@latest", context.project_name, "--", "--template", template, "--no-interactive"]
+        command = ["npm", "create", "vite@latest", context.project_name, "--", "--template", template, "--no-interactive"]
         runner.add_action(ScaffoldAction(command, None, True))
         runner.add_action(InstallAction(["npm", "install"]))
     elif context.scaffold == "npm":

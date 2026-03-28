@@ -5,6 +5,7 @@ from .run_process import InstallAction, ScaffoldAction
 from .assert_directory import AssertDirectoryAction
 from .append_file import AppendFileAction
 from .prepend_file import PrependFileAction
+from .todo import TodoAction
 
 __all__ = [
     "Action",
@@ -14,5 +15,6 @@ __all__ = [
     "ScaffoldAction",
     "AssertDirectoryAction",
     "AppendFileAction",
-    "PrependFileAction"
+    "PrependFileAction",
+    "TodoAction"
 ]

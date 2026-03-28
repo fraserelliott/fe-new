@@ -24,6 +24,7 @@ class EnsureDirectoryAction(Action):
     
     def execute(self, context: SetupContext) -> ActionResult:
         try:
+            print(f"Creating directory {self.path}")
             resolved = resolve_path(self.path, context.project_dir)
             resolved.mkdir(parents=True, exist_ok=True)
             return ActionResult(True)

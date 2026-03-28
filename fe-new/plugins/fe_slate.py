@@ -1,6 +1,7 @@
 from .base import Plugin
 from setup_context import SetupContext
-from actions import Action
+from actions import Action, PrependFileAction
+from utils.action_utils import npm_install_action
 
 class FeSlatePlugin(Plugin):
     key="fe-slate"
@@ -11,4 +12,11 @@ class FeSlatePlugin(Plugin):
         return context.project_type == "Web App"
 
     def build_actions(self, context: SetupContext) -> list[Action]:
-        pass
+        actions = []
+        actions.append(npm_install_action("@fraserelliott/fe-slate"))
+        if context.language == "JavaScript":
+            filename = "src/main.jsx"
+        else:
+            filename = "src/main.tsx"
+        actions.append(PrependFileAction(filename, "import '@fraserelliott/fe-slate';"))
+        return actions

@@ -3,6 +3,8 @@ from .create_file import CreateFileAction
 from .ensure_directory import EnsureDirectoryAction
 from .run_process import InstallAction, ScaffoldAction
 from .assert_directory import AssertDirectoryAction
+from .append_file import AppendFileAction
+from .prepend_file import PrependFileAction
 
 __all__ = [
     "Action",
@@ -10,5 +12,7 @@ __all__ = [
     "EnsureDirectoryAction",
     "InstallAction",
     "ScaffoldAction",
-    "AssertDirectoryAction"
+    "AssertDirectoryAction",
+    "AppendFileAction",
+    "PrependFileAction"
 ]

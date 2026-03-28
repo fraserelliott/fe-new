@@ -33,7 +33,7 @@ class CreateFileAction(Action):
     
     def execute(self, context: SetupContext) -> ActionResult:
         try:
-            resolved = resolve_path(self.path, context.project_path)
+            resolved = resolve_path(self.path, context.project_dir)
             if file_exists(resolved):
                     if self.content is None:
                         return ActionResult(True)

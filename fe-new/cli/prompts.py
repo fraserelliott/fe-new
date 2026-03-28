@@ -46,7 +46,7 @@ def run_prompts():
     package_manager = select("Package manager:", config["package_managers"])
     return SetupContext(project_name, parent_dir, project_dir, project_type, language, scaffold, package_manager)
 
-def build_actions(context):
+def build_runner(context):
     runner = Runner(context)
     if context.scaffold == "Vite":
         template = "react" if context.language == "JavaScript" else "react-ts"

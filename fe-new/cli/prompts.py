@@ -1,7 +1,7 @@
 from setup_context import SetupContext
 from utils.prompting import ask_text, select
 from runner import Runner
-from actions import ScaffoldAction, EnsureDirectoryAction, InstallAction, AssertDirectoryAction
+from actions import ScaffoldAction, EnsureDirectoryAction, InstallAction, AssertDirectoryAction, ActionPhase
 from pathlib import Path
 import re
 
@@ -47,7 +47,7 @@ def run_prompts():
     package_manager = select("Package manager:", config["package_managers"])
     return SetupContext(project_name, parent_dir, project_dir, project_type, language, scaffold, package_manager)
 
-def build_runner(context):
+def build_runner(context: SetupContext):
     runner = Runner(context)
     if context.scaffold == "Vite":
         template = "react" if context.language == "JavaScript" else "react-ts"
@@ -55,11 +55,13 @@ def build_runner(context):
         runner.add_action(ScaffoldAction(command, None, True))
         runner.add_action(InstallAction(["npm", "install"]))
     elif context.scaffold == "npm":
-        runner.add_action(EnsureDirectoryAction("."))
+        runner.add_action(EnsureDirectoryAction(".", ActionPhase.SCAFFOLD))
         command = ["npm", "init", "-y"]
         runner.add_action(ScaffoldAction(command))
+        if context.project_type == "Server":
+            pass
     elif context.scaffold is None:
-        runner.add_action(EnsureDirectoryAction("."))
+        runner.add_action(EnsureDirectoryAction(".", ActionPhase.SCAFFOLD))
         if context.language == "Python":
             runner.add_action(ScaffoldAction(["python", "-m", "venv", ".venv"]))
         else:

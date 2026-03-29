@@ -6,9 +6,9 @@ class AssertDirectoryAction(Action):
     """
     Checks whether a directory exists at the specified path.
     """
-    phase = ActionPhase.SCAFFOLD
     
     def __init__(self, path: str) -> None:
+        super().__init__(ActionPhase.SCAFFOLD)
         self.path = path
     
     def execute(self, context: SetupContext) -> ActionResult:

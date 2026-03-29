@@ -20,9 +20,9 @@ class PrependFileAction(Action):
         True if content was successfully prepended.
         False if the file does not exist, the path is invalid, or the operation fails.
     """
-    phase = ActionPhase.UPDATE_FILE
 
     def __init__(self, path: str, content: Optional[str] = None) -> None:
+        super().__init__(ActionPhase.UPDATE_FILE)
         self.path = path
         self.content = content
     

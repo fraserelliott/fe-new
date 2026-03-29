@@ -1,4 +1,4 @@
-from .base import Action
+from .base import Action, ActionPhase
 from .create_file import CreateFileAction
 from .ensure_directory import EnsureDirectoryAction
 from .run_process import InstallAction, ScaffoldAction
@@ -16,5 +16,6 @@ __all__ = [
     "AssertDirectoryAction",
     "AppendFileAction",
     "PrependFileAction",
-    "TodoAction"
+    "TodoAction",
+    "ActionPhase"
 ]

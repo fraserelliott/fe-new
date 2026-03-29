@@ -25,9 +25,9 @@ class CreateFileAction(Action):
         True if the file exists or was successfully created.
         False if the action could not satisfy its intent (e.g. conflicting content or invalid path).
     """
-    phase = ActionPhase.CREATE_FILE
 
     def __init__(self, path: str, content: Optional[str] = None) -> None:
+        super().__init__(ActionPhase.CREATE_FILE)
         self.path = path
         self.content = content
     

@@ -17,9 +17,9 @@ class TodoAction(Action):
         True if content was successfully written.
         False if the operation fails.
     """
-    phase = ActionPhase.UPDATE_FILE
 
     def __init__(self, content: str) -> None:
+        super().__init__(ActionPhase.UPDATE_FILE)
         self.content = content
     
     def execute(self, context: SetupContext) -> ActionResult:

@@ -28,7 +28,8 @@ class Action(ABC):
     - Actions must not perform hidden destructive behavior.
     - The runner is responsible for handling failures (e.g. stop or continue).
     """
-    phase: int
+    def __init__(self, phase: ActionPhase) -> None:
+        self.phase = phase
 
     @abstractmethod
     def execute(self, context: SetupContext) -> ActionResult:

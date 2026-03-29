@@ -19,7 +19,8 @@ class EnsureDirectoryAction(Action):
     """
     phase = ActionPhase.CREATE_DIRECTORY
     
-    def __init__(self, path: str) -> None:
+    def __init__(self, path: str, phase: ActionPhase = ActionPhase.CREATE_DIRECTORY) -> None:
+        super().__init__(phase)
         self.path = path
     
     def execute(self, context: SetupContext) -> ActionResult:

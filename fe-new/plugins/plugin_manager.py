@@ -10,6 +10,7 @@ class PluginManager:
 
     def prompt_for_plugins(self, context: SetupContext) -> None:
         available_plugins = [p for p in self.all_plugins if p.is_available(context)]
+        print(f"{len(available_plugins)} available plugins")
         if len(available_plugins) == 0:
             print("No available plugins for the selected project setup. Skipping plugin configuration.")
             return

@@ -1,0 +1,27 @@
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
+const express = require("express");
+const cors = require("cors");
+
+const app = express();
+app.use(express.json());
+
+if (process.env.NODE_ENV !== "production") {
+  app.use(cors());
+}
+
+const routes = require("./routes/index.route");
+app.use("/api", routes);
+
+// Error logging
+app.use((err, req, res, next) => {
+  console.error("Error:", err.message);
+  res.status(500).json({ error: err.message });
+});
+
+const PORT = process.env.PORT || 3001;
+
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
+});

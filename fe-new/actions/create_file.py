@@ -26,8 +26,8 @@ class CreateFileAction(Action):
         False if the action could not satisfy its intent (e.g. conflicting content or invalid path).
     """
 
-    def __init__(self, path: str, content: Optional[str] = None) -> None:
-        super().__init__(ActionPhase.CREATE_FILE)
+    def __init__(self, path: str, content: Optional[str] = None, phase: Optional[ActionPhase] = ActionPhase.CREATE_FILE) -> None:
+        super().__init__(phase)
         self.path = path
         self.content = content
     

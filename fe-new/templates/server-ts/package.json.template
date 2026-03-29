@@ -1,0 +1,17 @@
+{
+  "name": "{project_name}",
+  "version": "0.1.0",
+  "description": "",
+  "main": "dist/server.js",
+  "scripts": {
+    "start": "node dist/server.js",
+    "dev": "cross-env NODE_ENV=development nodemon --exec ts-node src/server.ts",
+    "build": "tsc"
+  },
+  "rootDir": "./src",
+  "exclude": ["node_modules", "dist"],
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "type": "commonjs"
+}

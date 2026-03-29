@@ -41,7 +41,7 @@ def build_react_app(context: SetupContext) -> Runner:
     runner.add_action(InstallAction(["npm", "install"]))
     return runner
 
-def build_express_server(context: SetupContext) -> Runner:
+def build_express_server_js(context: SetupContext) -> Runner:
     runner = Runner(context)
     package_context = { "project_name": context.project_name }
     runner.add_action(copy_template_action("fe-new/templates/server-js/package.json.template", "package.json", package_context, ActionPhase.SCAFFOLD))
@@ -57,6 +57,25 @@ def build_express_server(context: SetupContext) -> Runner:
     runner.add_action(copy_template_action("fe-new/templates/server-js/.env.template", ".env.example"))
     runner.add_action(copy_template_action("fe-new/templates/server-js/.gitignore.template", ".gitignore"))
     runner.add_action(copy_template_action("fe-new/templates/server-js/index.route.js.template", "routes/index.route.js"))
+    return runner
+
+def build_express_server_ts(context: SetupContext) -> Runner:
+    runner = Runner(context)
+    package_context = { "project_name": context.project_name }
+    runner.add_action(copy_template_action("fe-new/templates/server-ts/package.json.template", "package.json", package_context, ActionPhase.SCAFFOLD))
+    runner.add_action(EnsureDirectoryAction(".", ActionPhase.SCAFFOLD))
+    runner.add_action(EnsureDirectoryAction("src/config"))
+    runner.add_action(EnsureDirectoryAction("src/middleware"))
+    runner.add_action(EnsureDirectoryAction("src/routes"))
+    runner.add_action(EnsureDirectoryAction("scripts"))
+    runner.add_action(npm_install_action("cors", "express", "dotenv"))
+    runner.add_action(npm_install_action("cross-env", "nodemon", "typescript", "ts-node", "@types/node", "@types/express", "@types/cors", install_dev_dependencies=True))
+    runner.add_action(copy_template_action("fe-new/templates/server-ts/server.ts.template", "src/server.ts"))
+    runner.add_action(copy_template_action("fe-new/templates/server-ts/tsconfig.json.template", "tsconfig.json"))
+    runner.add_action(copy_template_action("fe-new/templates/server-ts/.env.template", ".env"))
+    runner.add_action(copy_template_action("fe-new/templates/server-ts/.env.template", ".env.example"))
+    runner.add_action(copy_template_action("fe-new/templates/server-ts/.gitignore.template", ".gitignore"))
+    runner.add_action(copy_template_action("fe-new/templates/server-ts/index.route.ts.template", "src/routes/index.route.ts"))
     return runner
 
 def build_python_cli(context: SetupContext) -> Runner:
@@ -82,7 +101,12 @@ project_options = {
         "JavaScript": ProjectConfig(
             scaffolds=[],
             package_managers=["npm"],
-            build_function=build_express_server
+            build_function=build_express_server_js
+        ),
+        "TypeScript": ProjectConfig(
+            scaffolds=[],
+            package_managers=["npm"],
+            build_function=build_express_server_ts
         )
     },
     "Command Line": {

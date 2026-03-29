@@ -2,6 +2,7 @@
   "name": "{project_name}",
   "version": "0.1.0",
   "description": "",
+  "exclude": ["node_modules"],
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

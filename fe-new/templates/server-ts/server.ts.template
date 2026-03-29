@@ -1,0 +1,30 @@
+if (process.env.NODE_ENV !== "production") {
+    require("dotenv").config();
+}
+
+import express, { Request, Response, NextFunction } from "express";
+import cors from "cors";
+
+const app = express();
+
+app.use(express.json());
+
+if (process.env.NODE_ENV !== "production") {
+    app.use(cors());
+}
+
+import routes from "./routes/index.route";
+
+app.use("/api", routes);
+
+// Error logging middleware
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+    console.error("Error:", err.message);
+    res.status(500).json({ error: err.message });
+});
+
+const PORT = process.env.PORT || 3001;
+
+app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
+});

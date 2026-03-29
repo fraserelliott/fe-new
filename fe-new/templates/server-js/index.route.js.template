@@ -1,8 +1,5 @@
 const router = require("express").Router();
 
-// const userRoutes = require('./users.route');
-// router.use('/users', userRoutes);
-
 router.get("/", (req, res) => {
   res.json({ message: "API is running" });
 });
